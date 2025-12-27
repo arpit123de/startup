@@ -1,0 +1,555 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AI Agents - Startup Agent</title>
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-dark: #0b0c14;
+      --nav-bg: #5b5b66;
+      --card-bg: #14162a;
+      --purple: #a855f7;
+      --pink: #ec4899;
+      --text-muted: #a1a1aa;
+      --white: #ffffff;
+      --border-soft: rgba(255,255,255,0.08);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background: radial-gradient(circle at top, #15172a 0%, #0b0c14 60%);
+      color: var(--white);
+      min-height: 100vh;
+    }
+
+    /* ================= NAVBAR ================= */
+    nav {
+      background: linear-gradient(135deg, rgba(20, 22, 42, 0.95), rgba(31, 33, 64, 0.95));
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      padding: 1.25rem 5%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+      flex-wrap: wrap;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      border-bottom: 1px solid rgba(168, 85, 247, 0.2);
+      box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.4),
+        0 1px 0 rgba(255, 255, 255, 0.1) inset;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, #fff, #b197fc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-shadow: 0 0 30px rgba(177, 151, 252, 0.5);
+      position: relative;
+      text-decoration: none;
+    }
+
+    .logo span {
+      background: linear-gradient(135deg, var(--purple), var(--pink));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-weight: 800;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      font-size: 0.95rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: #e5e7eb;
+      text-decoration: none;
+      font-weight: 500;
+      position: relative;
+      transition: all 0.3s ease;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(135deg, var(--purple), var(--pink));
+      transition: width 0.3s ease;
+    }
+
+    .nav-links a:hover {
+      color: #fff;
+      transform: translateY(-2px);
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .nav-links a.active::after {
+      width: 100%;
+    }
+
+    .nav-btn {
+      background: linear-gradient(135deg, var(--purple), var(--pink));
+      border: none;
+      color: white;
+      padding: 0.75rem 1.75rem;
+      border-radius: 50px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(168, 85, 247, 0.4);
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .nav-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      transition: left 0.5s;
+    }
+
+    .nav-btn:hover::before {
+      left: 100%;
+    }
+
+    .nav-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 25px rgba(168, 85, 247, 0.6);
+    }
+
+    /* ================= HERO ================= */
+    .hero-section {
+      padding: 2rem 5% 1.5rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .hero-title {
+      font-size: clamp(1.75rem, 4vw, 2.5rem);
+      font-weight: 800;
+      margin-bottom: 0.75rem;
+      background: linear-gradient(135deg, #fff, var(--purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-description {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      max-width: 600px;
+      margin: 0 auto 1.5rem;
+      line-height: 1.6;
+    }
+
+    /* ================= AGENTS GRID ================= */
+    .agents-container {
+      padding: 1.5rem 5% 3rem;
+      max-width: 1300px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem;
+    }
+
+    .agent-card {
+      background: linear-gradient(135deg, #1a1c3c, #111328);
+      border: 1px solid var(--border-soft);
+      border-radius: 1.5rem;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      transition: all 0.4s ease;
+      position: relative;
+      overflow: hidden;
+      height: 100%;
+    }
+
+    .agent-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(168, 85, 247, 0.05), transparent);
+      opacity: 0;
+      transition: opacity 0.4s;
+    }
+
+    .agent-card:hover {
+      border-color: rgba(168, 85, 247, 0.4);
+      transform: translateY(-5px);
+      box-shadow: 0 15px 50px rgba(168, 85, 247, 0.3);
+    }
+
+    .agent-card:hover::before {
+      opacity: 1;
+    }
+
+    .agent-avatar {
+      width: 180px;
+      height: 240px;
+      border-radius: 1.25rem;
+      overflow: hidden;
+      position: relative;
+      background: linear-gradient(180deg, #1f2140, #0f1025);
+      border: 2px solid rgba(168, 85, 247, 0.3);
+      box-shadow: 
+        0 10px 30px rgba(0, 0, 0, 0.6),
+        0 0 15px rgba(168, 85, 247, 0.3);
+      transition: all 0.4s ease;
+      margin-bottom: 1.25rem;
+    }
+
+    .agent-avatar:hover {
+      transform: scale(1.05);
+      border-color: var(--purple);
+      box-shadow: 
+        0 15px 45px rgba(0, 0, 0, 0.8),
+        0 0 30px rgba(168, 85, 247, 0.6);
+    }
+
+    .agent-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .agent-content {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+    }
+
+    .agent-header {
+      margin-bottom: 1rem;
+    }
+
+    .agent-name {
+      font-size: 1.5rem;
+      font-weight: 800;
+      margin-bottom: 0.35rem;
+      background: linear-gradient(135deg, var(--purple), var(--pink));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .agent-role {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .agent-description {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 1rem;
+    }
+
+    .agent-responsibilities {
+      margin-top: 1rem;
+    }
+
+    .responsibilities-title {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+      color: var(--white);
+    }
+
+    .responsibilities-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .responsibility-item {
+      background: rgba(168, 85, 247, 0.1);
+      border: 1px solid rgba(168, 85, 247, 0.3);
+      padding: 0.5rem 0.75rem;
+      border-radius: 0.5rem;
+      font-size: 0.8rem;
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.3s ease;
+      text-align: left;
+    }
+
+    .responsibility-item:hover {
+      background: rgba(168, 85, 247, 0.2);
+      border-color: var(--purple);
+      transform: translateX(3px);
+    }
+
+    .responsibility-item::before {
+      content: '✓';
+      color: var(--purple);
+      font-weight: bold;
+      font-size: 0.95rem;
+      flex-shrink: 0;
+    }
+
+    /* ================= FOOTER ================= */
+    footer {
+      background: linear-gradient(180deg, #0b0c14 0%, #14162a 100%);
+      border-top: 1px solid var(--border-soft);
+      padding: 1.25rem 5%;
+      margin-top: 2rem;
+      text-align: center;
+    }
+
+    .footer-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .footer-content p {
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      margin: 0;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .footer-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.8rem;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover {
+      color: var(--purple);
+    }
+
+    /* ================= RESPONSIVE ================= */
+    @media (max-width: 1024px) {
+      .agents-container {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        order: 3;
+        width: 100%;
+        justify-content: center;
+        gap: 1rem;
+      }
+
+      .agent-card {
+        padding: 1.5rem;
+      }
+
+      .agent-avatar {
+        width: 160px;
+        height: 210px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav>
+    <a href="{% url 'index' %}" class="logo">Startup <span>Agent</span></a>
+    <div class="nav-links">
+      <a href="{% url 'index' %}">Home</a>
+      <a href="{% url 'how_it_works' %}">How it Works</a>
+      <a href="{% url 'agents' %}" class="active">Agents</a>
+      <a href="#">Demo</a>
+      <a href="{% url 'about' %}">About</a>
+    </div>
+    <a href="#" class="nav-btn">Start Simulation</a>
+  </nav>
+
+  <!-- HERO SECTION -->
+  <section class="hero-section">
+    <h1 class="hero-title">Meet Our AI Agents 🤖</h1>
+    <p class="hero-description">
+      Four specialized AI agents working together like a real founding team. 
+      Each brings unique expertise to help you build a successful startup.
+    </p>
+  </section>
+
+  <!-- AGENTS SECTION -->
+  <section class="agents-container">
+
+    <!-- CEO AGENT -->
+    <div class="agent-card">
+      <div class="agent-avatar">
+        <img src="{% static 'core/images/lucid-origin_Futuristic_AI_CEO_avatar_humanoid_android_leader_wearing_a_sleek_black_tech_suit-0.jpg' %}" alt="CEO Agent">
+      </div>
+      <div class="agent-content">
+        <div class="agent-header">
+          <h2 class="agent-name">CEO Agent</h2>
+          <p class="agent-role">Vision, Strategy, and Final Decision-Maker</p>
+        </div>
+        <p class="agent-description">
+          The CEO Agent acts as the leader of the startup. It defines the long-term vision, 
+          aligns all other agents, and makes final decisions based on their inputs. It balances 
+          growth, risk, and feasibility to guide the startup in the right direction.
+        </p>
+        <div class="agent-responsibilities">
+          <h3 class="responsibilities-title">What the CEO Agent does:</h3>
+          <div class="responsibilities-list">
+            <div class="responsibility-item">Defines startup vision and mission</div>
+            <div class="responsibility-item">Sets long-term and short-term goals</div>
+            <div class="responsibility-item">Evaluates suggestions from other agents</div>
+            <div class="responsibility-item">Resolves conflicts between strategies</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MARKETING AGENT -->
+    <div class="agent-card">
+      <div class="agent-avatar">
+        <img src="{% static 'core/images/lucid-origin_Futuristic_AI_marketing_agent_avatar_energetic_humanoid_robot_stylish_futuristic-0.jpg' %}" alt="Marketing Agent">
+      </div>
+      <div class="agent-content">
+        <div class="agent-header">
+          <h2 class="agent-name">Marketing Agent</h2>
+          <p class="agent-role">Growth, Branding, and Customer Reach</p>
+        </div>
+        <p class="agent-description">
+          The Marketing Agent focuses on how people discover, understand, and trust the product. 
+          It creates strategies to attract users and build brand awareness.
+        </p>
+        <div class="agent-responsibilities">
+          <h3 class="responsibilities-title">What the Marketing Agent does:</h3>
+          <div class="responsibilities-list">
+            <div class="responsibility-item">Identifies the target audience</div>
+            <div class="responsibility-item">Suggests marketing channels</div>
+            <div class="responsibility-item">Plans campaigns</div>
+            <div class="responsibility-item">Improves messaging</div>
+            <div class="responsibility-item">Tracks engagement ideas</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FINANCE AGENT -->
+    <div class="agent-card">
+      <div class="agent-avatar">
+        <img src="{% static 'core/images/lucid-origin_Futuristic_AI_finance_agent_avatar_calm_and_analytical_humanoid_android_minimali-0.jpg' %}" alt="Finance Agent">
+      </div>
+      <div class="agent-content">
+        <div class="agent-header">
+          <h2 class="agent-name">Finance Agent</h2>
+          <p class="agent-role">Money, Budget, and Sustainability Manager</p>
+        </div>
+        <p class="agent-description">
+          The Finance Agent evaluates costs, revenue potential, and financial risks. 
+          It ensures the startup can survive and grow without running out of money.
+        </p>
+        <div class="agent-responsibilities">
+          <h3 class="responsibilities-title">What the Finance Agent does:</h3>
+          <div class="responsibilities-list">
+            <div class="responsibility-item">Estimates expenses</div>
+            <div class="responsibility-item">Calculates pricing strategies</div>
+            <div class="responsibility-item">Predicts revenue</div>
+            <div class="responsibility-item">Checks profitability</div>
+            <div class="responsibility-item">Notifies financial risks</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CUSTOMER AGENT -->
+    <div class="agent-card">
+      <div class="agent-avatar">
+        <img src="{% static 'core/images/lucid-origin_Futuristic_AI_customer_agent_avatar_humanoid_android_with_human-like_warmth_soft-0.jpg' %}" alt="Customer Agent">
+      </div>
+      <div class="agent-content">
+        <div class="agent-header">
+          <h2 class="agent-name">Customer Agent</h2>
+          <p class="agent-role">Voice of the User</p>
+        </div>
+        <p class="agent-description">
+          The Customer Agent represents the end users. It focuses on user needs, expectations, 
+          pain points, and satisfaction.
+        </p>
+        <div class="agent-responsibilities">
+          <h3 class="responsibilities-title">What the Customer Agent does:</h3>
+          <div class="responsibilities-list">
+            <div class="responsibility-item">Analyzes user needs</div>
+            <div class="responsibility-item">Predicts customer reactions</div>
+            <div class="responsibility-item">Identifies pain points</div>
+            <div class="responsibility-item">Suggests improvements</div>
+            <div class="responsibility-item">Measures satisfaction</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-content">
+      <p>&copy; 2025 Startup Agent. Built for Imagine Cup 2025.</p>
+      <div class="footer-links">
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="#">Contact</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
