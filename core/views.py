@@ -12,3 +12,8 @@ def agents(request):
 def about(request):
     return render(request, 'about.html')
 
+def simulation(request):
+    return render(request,'simulation.html')
+
+def demo(request):
+    return render(request,'demo.html')

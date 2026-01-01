@@ -1,4 +1,9 @@
+{% extends "nav.html" %}
 {% load static %}
+
+{% block content %}
+  
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,23 +15,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <style>
-    :root {
-      --bg-dark: #0b0c14;
-      --nav-bg: #5b5b66;
-      --card-bg: #14162a;
-      --purple: #a855f7;
-      --pink: #ec4899;
-      --text-muted: #a1a1aa;
-      --white: #ffffff;
-      --border-soft: rgba(255,255,255,0.08);
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Inter', sans-serif;
-    }
+  
 
     body {
       background: radial-gradient(circle at top, #15172a 0%, #0b0c14 60%);
@@ -505,18 +494,7 @@
 </head>
 <body>
 
-  <!-- NAVBAR -->
-  <nav>
-    <a href="{% url 'index' %}" class="logo" style="text-decoration: none;">Startup <span>Agent</span></a>
-    <div class="nav-links">
-      <a href="{% url 'index' %}">Home</a>
-      <a href="{% url 'how_it_works' %}">How it Works</a>
-      <a href="{% url 'agents' %}">Agents</a>
-      <a href="#">Demo</a>
-      <a href="{% url 'about' %}">About</a>
-    </div>
-    <button class="nav-btn">Start Simulation</button>
-  </nav>
+  
 
   <!-- HERO -->
   <section class="hero">
@@ -612,6 +590,7 @@
       </div>
     </div>
   </footer>
-
+{% endblock content %}
 </body>
 </html>
+
