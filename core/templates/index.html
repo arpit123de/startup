@@ -194,6 +194,7 @@
       cursor: pointer;
       transition: transform 0.2s;
       white-space: nowrap;
+      text-decoration: none;
     }
 
     .btn-primary:hover {
@@ -210,6 +211,7 @@
       cursor: pointer;
       transition: all 0.2s;
       white-space: nowrap;
+      text-decoration: none;
     }
 
     .btn-secondary:hover {
@@ -291,7 +293,7 @@
 
     .agent-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(5, 1fr);
       gap: 2.5rem;
       margin-top: 2rem;
       max-width: 1100px;
@@ -512,8 +514,8 @@
       </p>
 
       <div class="hero-buttons">
-        <button class="btn-primary">🚀 Start Simulation</button>
-        <button class="btn-secondary">📘 View Demo</button>
+        <a class="btn-primary" href="{% url 'startup' %}">🚀 Start Simulation</a>
+        <a class="btn-secondary" href="{% url 'demo' %}">📘 View Demo</a>
       </div>
     </div>
 
@@ -575,6 +577,12 @@
           <img src="{% static 'core/images/lucid-origin_Futuristic_AI_customer_agent_avatar_humanoid_android_with_human-like_warmth_soft-0.jpg' %}" alt="AI Customer Avatar">
         </div>
         <h4>Customer</h4>
+      </div>
+      <div class="agent">
+        <div class="agent-img">
+          <img src="{% static 'core/images/tech.png' %}" alt="AI Customer Avatar">
+        </div>
+        <h4>Technical</h4>
       </div>
     </div>
   </section>
