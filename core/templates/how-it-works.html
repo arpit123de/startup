@@ -1,0 +1,452 @@
+{% extends "nav.html" %}
+{% load static %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>How It Works - Startup Agent</title>
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-dark: #0b0c14;
+      --nav-bg: #5b5b66;
+      --card-bg: #14162a;
+      --purple: #a855f7;
+      --pink: #ec4899;
+      --text-muted: #a1a1aa;
+      --white: #ffffff;
+      --border-soft: rgba(255,255,255,0.08);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background: radial-gradient(circle at top, #15172a 0%, #0b0c14 60%);
+      color: var(--white);
+      min-height: 100vh;
+    }
+
+    /* ================= HERO ================= */
+    .hero-section {
+      padding: 3rem 5% 2rem;
+      max-width: 1100px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .hero-title {
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 800;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #fff, var(--purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-description {
+      font-size: 1rem;
+      color: var(--text-muted);
+      max-width: 600px;
+      margin: 0 auto 2rem;
+      line-height: 1.6;
+    }
+
+    /* ================= STEPS ================= */
+    .steps-container {
+      padding: 1.5rem 5% 3rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .step {
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      gap: 2rem;
+      align-items: center;
+      margin-bottom: 2.5rem;
+      position: relative;
+    }
+
+    .step:nth-child(even) {
+      grid-template-columns: 1fr 120px;
+    }
+
+    .step:nth-child(even) .step-content {
+      order: -1;
+    }
+
+    .step-number {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #1f2140, #0f1025);
+      border: 2px solid rgba(168, 85, 247, 0.3);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      transition: all 0.4s ease;
+      box-shadow: 
+        0 8px 30px rgba(0, 0, 0, 0.5),
+        0 0 0 3px rgba(168, 85, 247, 0.1);
+    }
+
+    .step-number:hover {
+      transform: scale(1.08) translateY(-8px);
+      border-color: var(--purple);
+      box-shadow: 
+        0 15px 50px rgba(0, 0, 0, 0.7),
+        0 0 30px rgba(168, 85, 247, 0.6);
+    }
+
+    .step-num {
+      font-size: 2.5rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--purple), var(--pink));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1;
+    }
+
+    .step-icon {
+      font-size: 2.5rem;
+      margin-bottom: 0.35rem;
+    }
+
+    .step-content {
+      background: linear-gradient(135deg, #1a1c3c, #111328);
+      border: 1px solid var(--border-soft);
+      padding: 1.75rem;
+      border-radius: 1.25rem;
+      transition: all 0.3s ease;
+    }
+
+    .step-content:hover {
+      transform: translateX(8px);
+      border-color: rgba(168, 85, 247, 0.4);
+      box-shadow: 0 8px 30px rgba(168, 85, 247, 0.2);
+    }
+
+    .step:nth-child(even) .step-content:hover {
+      transform: translateX(-8px);
+    }
+
+    .step-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+      color: var(--white);
+    }
+
+    .step-description {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 0.75rem;
+    }
+
+    .step-details {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-top: 1rem;
+    }
+
+    .detail-tag {
+      background: rgba(168, 85, 247, 0.1);
+      border: 1px solid rgba(168, 85, 247, 0.3);
+      padding: 0.4rem 0.85rem;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      color: var(--purple);
+      font-weight: 500;
+    }
+
+    /* ================= CONNECTOR LINE ================= */
+    .step::after {
+      content: '';
+      position: absolute;
+      width: 2px;
+      height: calc(100% + 2.5rem);
+      background: linear-gradient(180deg, var(--purple), transparent);
+      left: 60px;
+      top: 120px;
+      z-index: -1;
+    }
+
+    .step:last-child::after {
+      display: none;
+    }
+
+    .step:nth-child(even)::after {
+      left: auto;
+      right: 60px;
+    }
+
+    /* ================= CTA SECTION ================= */
+    .cta-section {
+      padding: 2.5rem 5%;
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+      background: linear-gradient(135deg, #1a1c3c, #111328);
+      border: 1px solid rgba(168, 85, 247, 0.3);
+      border-radius: 1.5rem;
+      margin-bottom: 3rem;
+    }
+
+    .cta-title {
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+    }
+
+    .cta-description {
+      font-size: 1rem;
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+    }
+
+    .cta-button {
+      background: linear-gradient(135deg, var(--purple), var(--pink));
+      color: white;
+      padding: 0.875rem 2rem;
+      border-radius: 50px;
+      font-size: 1rem;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-block;
+      transition: all 0.3s ease;
+      box-shadow: 0 6px 25px rgba(168, 85, 247, 0.5);
+    }
+
+    .cta-button:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 35px rgba(168, 85, 247, 0.7);
+    }
+
+    /* ================= FOOTER ================= */
+    footer {
+      background: linear-gradient(180deg, #0b0c14 0%, #14162a 100%);
+      border-top: 1px solid var(--border-soft);
+      padding: 1.25rem 5%;
+      margin-top: 1.5rem;
+      text-align: center;
+    }
+
+    .footer-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .footer-content p {
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      margin: 0;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .footer-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.8rem;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover {
+      color: var(--purple);
+    }
+
+    /* ================= RESPONSIVE ================= */
+    @media (max-width: 768px) {
+      .step {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        text-align: center;
+      }
+
+      .step:nth-child(even) {
+        grid-template-columns: 1fr;
+      }
+
+      .step:nth-child(even) .step-content {
+        order: 0;
+      }
+
+      .step::after {
+        display: none;
+      }
+
+      .step-number {
+        margin: 0 auto;
+      }
+
+      .step-content:hover {
+        transform: translateY(-10px);
+      }
+
+      .step:nth-child(even) .step-content:hover {
+        transform: translateY(-10px);
+      }
+
+      .nav-links {
+        order: 3;
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+
+
+  <!-- HERO SECTION -->
+  <section class="hero-section">
+    <h1 class="hero-title">How It Works? 🚀</h1>
+    <p class="hero-description">
+      Learn how AI agents analyze your idea and simulate startup decisions step by step.
+      Our intelligent agents collaborate to give you real insights.
+    </p>
+  </section>
+
+  <!-- STEPS SECTION -->
+  <section class="steps-container">
+    
+    <!-- STEP 1 -->
+    <div class="step">
+      <div class="step-number">
+        <div class="step-icon">💡</div>
+        <span class="step-num">01</span>
+      </div>
+      <div class="step-content">
+        <h3 class="step-title">Enter Your Idea</h3>
+        <p class="step-description">
+          Start by describing your startup idea and business goals. Share your vision, target market, 
+          and what problem you're solving. The more details you provide, the better our AI agents can help you.
+        </p>
+        <div class="step-details">
+          <span class="detail-tag">📝 Describe Vision</span>
+          <span class="detail-tag">🎯 Set Goals</span>
+          <span class="detail-tag">👥 Define Market</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 2 -->
+    <div class="step">
+      <div class="step-number">
+        <div class="step-icon">🤖</div>
+        <span class="step-num">02</span>
+      </div>
+      <div class="step-content">
+        <h3 class="step-title">AI Agents Analyze</h3>
+        <p class="step-description">
+          Each specialized AI agent reviews your idea from their unique perspective. The CEO Agent 
+          evaluates strategy, Marketing Agent assesses market fit, Finance Agent calculates viability, 
+          and Customer Agent predicts user needs.
+        </p>
+        <div class="step-details">
+          <span class="detail-tag">🎯 Strategy Review</span>
+          <span class="detail-tag">📊 Market Analysis</span>
+          <span class="detail-tag">💰 Financial Check</span>
+          <span class="detail-tag">👤 User Research</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 3 -->
+    <div class="step">
+      <div class="step-number">
+        <div class="step-icon">💬</div>
+        <span class="step-num">03</span>
+      </div>
+      <div class="step-content">
+        <h3 class="step-title">Agents Collaborate</h3>
+        <p class="step-description">
+          Our AI agents discuss and compare their insights in real-time. They debate different approaches, 
+          challenge assumptions, and reach consensus on the best path forward—just like a real founding team would.
+        </p>
+        <div class="step-details">
+          <span class="detail-tag">🗣️ Team Discussion</span>
+          <span class="detail-tag">⚖️ Compare Views</span>
+          <span class="detail-tag">🤝 Build Consensus</span>
+          <span class="detail-tag">✨ Find Solutions</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 4 -->
+    <div class="step">
+      <div class="step-number">
+        <div class="step-icon">📈</div>
+        <span class="step-num">04</span>
+      </div>
+      <div class="step-content">
+        <h3 class="step-title">Get Results</h3>
+        <p class="step-description">
+          Receive comprehensive strategies and actionable feedback tailored to your startup. 
+          Get detailed recommendations, potential pitfalls to avoid, growth strategies, and a clear roadmap 
+          to turn your idea into reality.
+        </p>
+        <div class="step-details">
+          <span class="detail-tag">📋 Action Plans</span>
+          <span class="detail-tag">⚠️ Risk Alerts</span>
+          <span class="detail-tag">🎯 Growth Strategy</span>
+          <span class="detail-tag">🗺️ Roadmap</span>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- CTA SECTION -->
+  <section class="cta-section">
+    <h2 class="cta-title">Ready to Start Your Journey? 🌟</h2>
+    <p class="cta-description">
+      Let our AI agents help you build a successful startup. Get expert insights in minutes, 
+      not months. Start your simulation now!
+    </p>
+    <a href="{% url 'startup' %}" class="cta-button">🚀 Launch Simulation</a>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-content">
+      <p>&copy; 2025 Startup Agent. Built for Imagine Cup 2025.</p>
+      <div class="footer-links">
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="#">Contact</a>
+      </div>
+    </div>
+  </footer>
+  
+{% endblock content %}
+</body>
+</html>

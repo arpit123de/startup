@@ -1,0 +1,169 @@
+{% extends "nav.html" %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Startup Details</title>
+
+  <style>
+    :root {
+      --bg-dark: #0b0c14;
+      --card-bg: #14162a;
+      --purple: #a855f7;
+      --pink: #ec4899;
+      --text-muted: #a1a1aa;
+      --white: #ffffff;
+      --border-soft: rgba(255,255,255,0.08);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--bg-dark);
+      color: var(--white);
+      font-family: Inter, system-ui, sans-serif;
+    }
+
+    .container {
+      max-width: 760px;
+      margin: 60px auto;
+      background: var(--card-bg);
+      padding: 40px;
+      border-radius: 20px;
+      border: 1px solid var(--border-soft);
+    }
+
+    h1 {
+      font-size: 32px;
+      margin-bottom: 10px;
+      color: var(--purple);
+    }
+
+    p.subtitle {
+      color: var(--text-muted);
+      margin-bottom: 30px;
+      font-size: 16px;
+    }
+
+    label {
+      display: block;
+      margin-top: 22px;
+      margin-bottom: 8px;
+      font-size: 16px;
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      padding: 14px;
+      font-size: 16px;
+      background: var(--bg-dark);
+      color: var(--white);
+      border: 1px solid var(--border-soft);
+      border-radius: 12px;
+    }
+
+    textarea {
+      resize: none;
+      min-height: 110px;
+    }
+
+    .checkbox-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+      margin-top: 10px;
+    }
+
+    .checkbox-group label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 15px;
+      margin-top: 0;
+    }
+
+    button {
+      margin-top: 40px;
+      width: 100%;
+      padding: 16px;
+      font-size: 18px;
+      font-weight: bold;
+      color: white;
+      border: none;
+      border-radius: 14px;
+      cursor: pointer;
+      background: linear-gradient(135deg, var(--purple), var(--pink));
+    }
+
+    button:hover {
+      opacity: 0.95;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Tell Us About Your Startup</h1>
+  <p class="subtitle">
+    Answer in simple words. Even a school student should understand.
+  </p>
+
+  <form method="POST">
+    {% csrf_token %}
+
+    <!-- IDEA -->
+    <label>What is your startup idea?</label>
+    <textarea name="idea" placeholder="Example: An app that helps students choose careers using AI" required></textarea>
+
+    <label>What problem are you solving?</label>
+    <textarea name="problem" placeholder="Example: Students are confused about career options" required></textarea>
+
+    <!-- USERS -->
+    <label>Who faces this problem?</label>
+    <div class="checkbox-group">
+      <label><input type="checkbox" name="targets" value="Students"> Students</label>
+      <label><input type="checkbox" name="targets" value="Parents"> Parents</label>
+      <label><input type="checkbox" name="targets" value="Businesses"> Businesses</label>
+    </div>
+
+    <label>How does your idea help these users?</label>
+    <textarea name="solution" placeholder="Explain how your idea makes their life easier" required></textarea>
+
+    <!-- BUSINESS -->
+    <label>Business type</label>
+    <select name="business_type" required>
+      <option value="">Select one</option>
+      <option>EdTech</option>
+      <option>SaaS</option>
+      <option>AI Platform</option>
+      <option>E-Commerce</option>
+      <option>HealthTech</option>
+    </select>
+
+    <label>How will you earn money?</label>
+    <textarea name="revenue" placeholder="Example: Monthly subscription or commission" required></textarea>
+
+    <label>Why is your idea better than existing solutions?</label>
+    <textarea name="uniqueness" placeholder="Example: Uses AI, simple language, low cost" required></textarea>
+
+    <!-- AGENTS -->
+    <label>Which AI agents should analyze your startup?</label>
+    <div class="checkbox-group">
+      <label><input type="checkbox" name="agents" value="CEO" checked> CEO</label>
+      <label><input type="checkbox" name="agents" value="Marketing" checked> Marketing</label>
+      <label><input type="checkbox" name="agents" value="Finance" checked> Finance</label>
+      <label><input type="checkbox" name="agents" value="Tech" checked> Tech</label>
+      <label><input type="checkbox" checked disabled> Customer (Always Included)</label>
+    </div>
+
+    <button type="submit">Start AI Simulation</button>
+  </form>
+</div>
+{% endblock content %}
+</body>
+</html>
