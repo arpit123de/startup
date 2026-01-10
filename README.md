@@ -38,3 +38,6 @@ See the deployment instructions in this README or ask for help.
 
 ## License
 MIT License
+
+# GROK api key use this key to enable
+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
